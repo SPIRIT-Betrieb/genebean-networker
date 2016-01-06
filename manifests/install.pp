@@ -19,55 +19,45 @@ class networker::install (
   $version_server      = $::networker::version_server,
   $version_storagenode = $::networker::version_storagenode,) {
   case $::osfamily {
-    'RedHat', 'Debian' : {
+    'RedHat', 'Debian', 'Solaris' : {
       # Install the client
       if $install_client {
-        package { $package_client:
-          ensure => $version_client
-        }
+        package { $package_client: ensure => $version_client }
       }
 
       # Install networker console
       if $install_console {
-        package { $package_console:
-          ensure => $version_console
-        }
+        package { $package_console: ensure => $version_console }
       }
 
       # Install DB backup module
       if $install_nmda {
-        package { $package_nmda:
-          ensure => $version_nmda
-        }
+        package { $package_nmda: ensure => $version_nmda }
       }
 
       # Install SAP backup module
       if $install_sap {
-        package { $package_sap:
-          ensure => $version_sap
-        }
+        package { $package_sap: ensure => $version_sap }
       }
 
       # Install networker server
       if $install_server {
-        package { $package_server:
-          ensure => $version_server
-        }
+        package { $package_server: ensure => $version_server }
       }
 
       # Install storagenode
       if $install_storagenode {
-        package { $package_storagenode:
-          ensure => $version_storagenode
-        }
+        package { $package_storagenode: ensure => $version_storagenode }
       }
 
-    } # end RedHat
+    }
+    # end RedHat
 
-    default        : {
+    default : {
       fail("${::osfamily} is not yet supported by this module.
        Please file a bug report if it should be.")
     }
 
-  } # end case
+  }
+  # end case
 }

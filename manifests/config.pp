@@ -1,11 +1,10 @@
 # Configures the NetWorker client
 class networker::config (
-  $servers              = $::networker::servers,
-  $servers_file         = $::networker::servers_file,
-  $servers_file_name    = $::networker::servers_file_name,
-  ) {
+  $servers           = $::networker::servers,
+  $servers_file      = $::networker::servers_file,
+  $servers_file_name = $::networker::servers_file_name,) {
   case $::osfamily {
-    'RedHat', 'Debian' : {
+    'RedHat', 'Debian', 'Solaris' : {
       file { '/nsr':
         ensure => 'directory',
         before => File['/nsr/res'],
@@ -35,17 +34,18 @@ class networker::config (
           }
         }
 
-        default  : {
+        default    : {
           fail("Valid options for 'servers_file' are 'hiera' and 'template'.")
         }
       }
-    } # end RedHat
+    }
+    # end RedHat
 
-    default        : {
+    default : {
       fail("${::osfamily} is not yet supported by this module.
        Please file a bug report if it should be.")
     }
 
-  } # end case
-
+  }
+  # end case
 }
